@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+{% block title %}Poderes{% endblock %}
+{% block body %}
+{% if poder %}
+<h1>PODER</h1>
+<ul>
+    <li>Nombre: {{poder.nombre}}</li>
+    <li>Potencia: {{poder.potencia}}</li>
+    <li>Color: {{poder.color}}</li>
+</ul>
+{% else %}
+    <h4>NO HAY NINGUN PODER CON ESE ID</h4>
+{% endif %}
+{% endblock %}

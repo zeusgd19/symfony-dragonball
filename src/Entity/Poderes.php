@@ -22,6 +22,11 @@ class Poderes
     #[ORM\Column(length: 30)]
     private ?string $color = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Personaje $personaje = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +64,18 @@ class Poderes
     public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getPersonaje(): ?Personaje
+    {
+        return $this->personaje;
+    }
+
+    public function setPersonaje(?Personaje $personaje): self
+    {
+        $this->personaje = $personaje;
 
         return $this;
     }

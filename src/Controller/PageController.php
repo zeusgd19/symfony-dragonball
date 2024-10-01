@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Personaje;
 use App\Entity\Poderes;
+use App\Form\PoderesFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -48,6 +50,26 @@ class PageController extends AbstractController
         return new Response("Poder insertado correctamente");
     }
 
+    #[Route('/poderes/nuevo', name: 'nuevo')]
+    public function nuevo(ManagerRegistry $doctrine, Request $request){
+        $poder = new Poderes();
+        $formulario = $this->createForm(PoderesFormType::class, $poder);
+
+        $formulario->handleRequest($request);
+
+        if($formulario->isSubmitted() && $formulario->isValid()){
+            $poder = $formulario->getData();
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($poder);
+            $entityManager->flush();
+            return $this->redirectToRoute('poderes_show', ['id' => $poder->getId()]);
+        }
+        return $this->render('formulario.html.twig', array(
+            'formulario' => $formulario->createView()
+
+        ));
+    }
+
     #[Route('/poderes/delete/{nombre}', name: 'poderes_delete')]
     public function delete(string $nombre, ManagerRegistry $doctrine){
         $entityManager = $doctrine->getManager();
@@ -75,14 +97,12 @@ class PageController extends AbstractController
     }
 
     #[Route('/poderes/show/{id}', name: 'poderes_show')]
-    public function show(int $id, ManagerRegistry $doctrine){
-        $entityManager = $doctrine->getManager();
+    public function show(int $id, ManagerRegistry $doctrine) : Response{
         $repository = $doctrine->getRepository(Poderes::class);
 
         $poder = $repository->find($id);
 
         return $this->render("poderes.html.twig",['poder' => $poder]);
-
     }
 
     #[Route('/page', name: 'app_page')]

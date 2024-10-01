@@ -64,6 +64,7 @@ class PageController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('poderes_show', ['id' => $poder->getId()]);
         }
+
         return $this->render('formulario.html.twig', array(
             'formulario' => $formulario->createView()
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PersonajeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonajeRepository::class)]
 class Personaje
@@ -14,9 +15,11 @@ class Personaje
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacio")]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La raza del personaje no puede estar vacia")]
     private ?string $raza = null;
 
     public function getId(): ?int

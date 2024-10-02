@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\PoderesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PoderesRepository::class)]
 class Poderes
@@ -14,16 +17,21 @@ class Poderes
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacio")]
     private ?string $nombre = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La potencia no puede ser nula")]
+    #[Assert\Type(type: 'int', message: "Inserta un numero entero")]
     private ?int $potencia = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: "Tienes que poner algun color")]
     private ?string $color = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: "Selecciona algún personaje")]
     private ?Personaje $personaje = null;
 
 

@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+{% block title %}Poderes{% endblock %}
+{% block body %}
+    {% if personaje %}
+        <h1>PERSONAJE</h1>
+        <ul>
+            <li>Nombre: {{personaje.nombre}}</li>
+            <li>Raza: {{personaje.raza}}</li>
+        </ul>
+    {% else %}
+        <h4>NO HAY NINGUN PERSONAKE CON ESE ID</h4>
+    {% endif %}
+{% endblock %}

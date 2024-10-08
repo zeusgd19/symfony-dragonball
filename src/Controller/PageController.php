@@ -168,11 +168,13 @@ class PageController extends AbstractController
         return $this->render("poderes.html.twig",['poder' => $poder]);
     }
 
-    #[Route('/page', name: 'app_page')]
-    public function index(): Response
+    #[Route('/', name: 'portada')]
+    public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render('page/index.html.twig', [
-            'controller_name' => 'PageController',
+        $repository = $doctrine->getRepository(Poderes::class);
+        $poder = $repository->findAll();
+        return $this->render('portada.html.twig', [
+            'poderes' => $poder,
         ]);
     }
 }

@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use App\Repository\PoderesRepository;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\PseudoTypes\Numeric_;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PoderesRepository::class)]

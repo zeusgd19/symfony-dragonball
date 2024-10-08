@@ -1,14 +1,16 @@
 {% extends "base.html.twig" %}
 {% block title %}Poderes{% endblock %}
 {% block body %}
-{% if poder %}
+{% if poder and app.user %}
 <h1>PODER</h1>
 <ul>
     <li>Nombre: {{poder.nombre}}</li>
     <li>Potencia: {{poder.potencia}}</li>
     <li>Color: {{poder.color}}</li>
-    <li>Personaje: {{ poder.personaje.nombre }}</li>
+    <li>Personaje: {{ poder.personaje ? poder.personaje.nombre : '' }}</li>
 </ul>
+    <a href="{{ path('editar',{id:poder.id}) }}">Editar</a>
+    <a href="{{ path('eliminar_poderes',{id:poder.id}) }}">Eliminar</a>
 {% else %}
     <h4>NO HAY NINGUN PODER CON ESE ID</h4>
 {% endif %}

@@ -19,6 +19,11 @@ class PageController extends AbstractController
     // Manejar CRUD personaje
     #[Route('/personaje/insertarConPoderes',name:'personaje_insertar')]
     function insertarConPoderes(ManagerRegistry $doctrine){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            // Si no tiene el rol, redirige a otra página o muestra un mensaje de error
+            return $this->redirectToRoute('portada');
+        }
         $entityManager = $doctrine->getManager();
         $poderes = new Poderes();
         $poderes->setNombre('Rasengan');
@@ -40,6 +45,8 @@ class PageController extends AbstractController
 
     #[Route('/personaje/show/{id}', name: 'show_personaje')]
     public function showPersonaje(ManagerRegistry $doctrine, int $id){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $repository = $doctrine->getRepository(Personaje::class);
 
         $personaje = $repository->find($id);
@@ -50,6 +57,11 @@ class PageController extends AbstractController
     // Manjar formulario de poderes
     #[Route('/poderes/nuevo', name: 'nuevo')]
     public function nuevo(ManagerRegistry $doctrine, Request $request){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            // Si no tiene el rol, redirige a otra página o muestra un mensaje de error
+            return $this->redirectToRoute('portada');
+        }
         $poder = new Poderes();
         $formulario = $this->createForm(PoderesFormType::class, $poder);
 
@@ -71,6 +83,7 @@ class PageController extends AbstractController
 
     #[Route('/poderes/editar/{id}', name: 'editar')]
     public function editar(ManagerRegistry $doctrine, Request $request, int $id): Response{
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityRespository = $doctrine->getRepository(Poderes::class);
         $poder = $entityRespository->find($id);
 
@@ -83,7 +96,7 @@ class PageController extends AbstractController
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($poder);
                 $entityManager->flush();
-                return $this->redirectToRoute('poderes_show', ['id' => $poder->getId()]);
+                return $this->redirectToRoute('portada');
             }
             return $this->render('formulario.html.twig', array(
                 'formulario' => $formulario->createView()
@@ -94,11 +107,28 @@ class PageController extends AbstractController
         }
     }
 
+    #[Route("/poderes/eliminar/{id}",name:'eliminar_poderes')]
+    public function delete(ManagerRegistry $doctrine,int $id){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $entityManager = $doctrine->getManager();
+        $repository = $doctrine->getRepository(Poderes::class);
+        $poder = $repository->find($id);
+        $entityManager->remove($poder);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('portada');
+    }
+
 
     // Manjar formulario de Personaje
 
     #[Route('/personaje/nuevo', name: 'nuevo_personaje')]
     public function personajeNuevo(ManagerRegistry $doctrine, Request $request): Response{
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            // Si no tiene el rol, redirige a otra página o muestra un mensaje de error
+            return $this->redirectToRoute('portada');
+        }
         $personaje = new Personaje();
         $formulario = $this->createForm(PersonajeFormType::class,$personaje);
 
@@ -120,6 +150,11 @@ class PageController extends AbstractController
 
     #[Route('/poderes/insertar/{nombre}/{potencia}/{color}', name: 'poderes_insertar')]
     public function insertar(string $nombre, int $potencia, string $color, ManagerRegistry $doctrine){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            // Si no tiene el rol, redirige a otra página o muestra un mensaje de error
+            return $this->redirectToRoute('portada');
+        }
         $entityManager = $doctrine->getManager();
         $poder = new Poderes();
         $poder->setNombre($nombre);
@@ -133,19 +168,13 @@ class PageController extends AbstractController
     }
 
 
-    #[Route('/poderes/delete/{nombre}', name: 'poderes_delete')]
-    public function delete(string $nombre, ManagerRegistry $doctrine){
-        $entityManager = $doctrine->getManager();
-        $repository = $doctrine->getRepository(Poderes::class);
-        $poder = $repository->findOneBy(["nombre" => $nombre]);
-        $entityManager->remove($poder);
-        $entityManager->flush();
-
-        return new Response("Poder borrado correctamente");
-    }
-
     #[Route('/poderes/update/{nombre}/{nuevoNombre}', name: 'poderes_update')]
     public function update(string $nombre, string $nuevoNombre, ManagerRegistry $doctrine){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            // Si no tiene el rol, redirige a otra página o muestra un mensaje de error
+            return $this->redirectToRoute('portada');
+        }
         $entityManager = $doctrine->getManager();
         $repository = $doctrine->getRepository(Poderes::class);
 
@@ -161,6 +190,7 @@ class PageController extends AbstractController
 
     #[Route('/poderes/show/{id}', name: 'poderes_show')]
     public function show(int $id, ManagerRegistry $doctrine) : Response{
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $repository = $doctrine->getRepository(Poderes::class);
 
         $poder = $repository->find($id);

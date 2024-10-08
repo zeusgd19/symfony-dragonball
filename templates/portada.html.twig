@@ -5,30 +5,25 @@
 <p>{{ app.user.email }}</p>
 <p><a href="/logout">Logout</a></p>
 {% else %}
-    <p><a href="/login">Login</a></p>
-    <p><a href="/register">Register</a></p>
+    <p><a href="{{ path('login') }}">Login</a></p>
+    <p><a href="{{ path('app_register') }}">Register</a></p>
 {% endif %}
-{% if poderes and app.user %}
-    <h1>PODERES</h1>
+{% if poderes %}
+    <h2>PODERES</h2>
+    <h4>Bienvenido a la lista de poderes</h4>
+    <h1>LISTADO DE PODERES</h1>
     {% for poder in poderes %}
     <ul>
-        <li><strong><a href="/poderes/show/{{ poder.id }}">{{ poder.nombre}}</a></strong></li>
+        {% if app.user %}
+        <li><strong><a href="{{ path('poderes_show',{id:poder.id}) }}">{{ poder.nombre}}</a></strong></li>
+        {% else %}
+        <li><strong>{{ poder.nombre}}</strong></li>
+        {% endif %}
         <li><strong>Potencia: </strong>{{ poder.potencia}}</li>
         <li><strong>Color: </strong>{{ poder.color}}</li>
         <li><strong>Personaje: </strong>{{ poder.personaje.nombre}}</li>
         <hr>
     </ul>
-    {% endfor %}
-{% elseif poderes %}
-    <h1>PODERES</h1>
-    {% for poder in poderes %}
-        <ul>
-            <li><strong>{{ poder.nombre}}</strong></li>
-            <li><strong>Potencia: </strong>{{ poder.potencia}}</li>
-            <li><strong>Color: </strong>{{ poder.color}}</li>
-            <li><strong>Personaje: </strong>{{ poder.personaje.nombre}}</li>
-            <hr>
-        </ul>
     {% endfor %}
 {% endif %}
 {% endblock %}

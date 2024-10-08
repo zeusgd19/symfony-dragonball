@@ -9,8 +9,10 @@
     <li>Color: {{poder.color}}</li>
     <li>Personaje: {{ poder.personaje ? poder.personaje.nombre : '' }}</li>
 </ul>
-    <a href="{{ path('editar',{id:poder.id}) }}">Editar</a>
-    <a href="{{ path('eliminar_poderes',{id:poder.id}) }}">Eliminar</a>
+<div id="botones">
+    <button id="modificar"><a href="{{ path('editar',{id:poder.id}) }}">Editar</a></button>
+    <button id="eliminar"><a href="{{ path('eliminar_poderes',{id:poder.id}) }}">Eliminar</a></button>
+</div>
 {% else %}
     <h4>NO HAY NINGUN PODER CON ESE ID</h4>
 {% endif %}

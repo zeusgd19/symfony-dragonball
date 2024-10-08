@@ -87,6 +87,7 @@ class PageController extends AbstractController
         $entityRespository = $doctrine->getRepository(Poderes::class);
         $poder = $entityRespository->find($id);
 
+
         if($poder){
             $formulario = $this->createForm(PoderesFormType::class, $poder);
             $formulario->handleRequest($request);

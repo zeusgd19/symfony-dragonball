@@ -1,13 +1,70 @@
-body
-{
-    background-color: #99ccff;
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-p{
-    display: inline;
+h2{
+    margin-top: 20px;
 }
 
-h1
-{
-    border-bottom: 1px solid black;
+ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    background-color: #0dcaf0;
+}
+
+label {
+    margin-right: 20px;
+}
+
+header {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute; /* Cambiar a absolute */
+    top: 0;            /* Posicionar en la parte superior */
+    left: 0;           /* Posicionar a la izquierda */
+    padding: 10px;     /* Agregar algo de espacio interno, opcional */
+}
+
+#botones {
+    display: flex;
+    gap: 20px;
+}
+
+button a{
+    text-decoration: none;
+}
+button {
+    background-color: lightblue;
+    border: none;
+}
+
+button:hover {
+    background-color: #0c4a6e;
+    transform: scale(1.02);
+    transition: transform .1s;
+}
+
+#modificar:hover a{
+    color: white;
+}
+
+#eliminar:hover {
+    background-color: red;
+}
+
+header a {
+    text-decoration: none;
+    color: blue;
+}
+
+li a {
+    color: #2c3034;
 }

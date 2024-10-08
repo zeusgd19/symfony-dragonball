@@ -2,11 +2,15 @@
 {% block title %}PORTADA{% endblock %}
 {% block body %}
 {% if app.user %}
-<p>{{ app.user.email }}</p>
-<p><a href="/logout">Logout</a></p>
+<header>
+    <p>{{ app.user.email }}</p>
+    <p><a href="/logout">Logout</a></p>
+</header>
 {% else %}
+<header>
     <p><a href="{{ path('login') }}">Login</a></p>
     <p><a href="{{ path('app_register') }}">Register</a></p>
+</header>
 {% endif %}
 {% if poderes %}
     <h2>PODERES</h2>

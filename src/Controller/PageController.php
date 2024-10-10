@@ -108,20 +108,8 @@ class PageController extends AbstractController
         }
     }
 
-    #[Route("/poderes/eliminar/{id}",name:'eliminar_poderes')]
-    public function delete(ManagerRegistry $doctrine,int $id){
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $entityManager = $doctrine->getManager();
-        $repository = $doctrine->getRepository(Poderes::class);
-        $poder = $repository->find($id);
-        $entityManager->remove($poder);
-        $entityManager->flush();
 
-        return $this->redirectToRoute('portada');
-    }
-
-
-    // Manjar formulario de Personaje
+    // Manejar formulario de Personaje
 
     #[Route('/personaje/nuevo', name: 'nuevo_personaje')]
     public function personajeNuevo(ManagerRegistry $doctrine, Request $request): Response{
@@ -198,6 +186,20 @@ class PageController extends AbstractController
 
         return $this->render("poderes.html.twig",['poder' => $poder]);
     }
+
+    #[Route("/poderes/eliminar/{id}",name:'eliminar_poderes')]
+    public function delete(ManagerRegistry $doctrine,int $id){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $entityManager = $doctrine->getManager();
+        $repository = $doctrine->getRepository(Poderes::class);
+        $poder = $repository->find($id);
+        $entityManager->remove($poder);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('portada');
+    }
+
+    //INICIO
 
     #[Route('/', name: 'portada')]
     public function index(ManagerRegistry $doctrine): Response
